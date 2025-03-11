@@ -15,8 +15,8 @@ select "creating users table..." as msg;
 -- create users table
 create table users (
     user_id int auto_increment,
-    email unique varchar(128) not null,
-    password unique varchar(128) not null,
+    email varchar(128) not null unique,
+    password varchar(128) not null unique,
     contact_number varchar(8) not null,
     user_type ENUM ('PATIENT', 'ADMIN', 'DOCTOR') not null,
     
@@ -28,10 +28,10 @@ select "creating patients table..." as msg;
 create table patients (
     patient_id int auto_increment,
     name varchar(128) not null,
-    ic_num varchar(10) unique not null,
+    ic_num varchar(10) not null unique,
     dob date not null,
     address varchar(128) not null,
-    user_id not null,
+    user_id int not null,
 
     constraint pk_patient_id primary key(patient_id),
     constraint fk_user_id foreign key(user_id)
@@ -57,7 +57,7 @@ create table doctors (
     user_id int not null,
 
     constraint pk_doctor_id primary key(doctor_id),
-    constraint fk_user_id foreign key(user_id)
+    constraint fk_user_id_2 foreign key(user_id)
         references users(user_id),
     constraint fk_clinic_id foreign key(clinic_id)
         references clinics(clinic_id)
@@ -73,9 +73,9 @@ create table admins (
     user_id int not null,
 
     constraint pk_admin_id primary key(admin_id),
-    constraint fk_user_id foreign key(user_id)
+    constraint fk_user_id_3 foreign key(user_id)
         references users(user_id),
-    constraint fk_clinic_id foreign key(clinic_id)
+    constraint fk_clinic_id_2 foreign key(clinic_id)
         references clinics(clinic_id)
 );
 
@@ -92,7 +92,7 @@ create table clinic_patient_registrations(
     constraint pk_registration_id primary key(registration_id),
     constraint fk_patient_id foreign key(patient_id)
         references patients(patient_id),
-    constraint fk_clinic_id foreign key(clinic_id)
+    constraint fk_clinic_id_3 foreign key(clinic_id)
         references clinics(clinic_id)
 );
 
@@ -113,6 +113,8 @@ create table payments (
 );
 
 -- create medicines table
+
+select "creating medicines table..." as msg;
 
 create table medicines (
     name varchar(128) not null,
