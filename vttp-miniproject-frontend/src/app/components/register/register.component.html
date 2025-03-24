@@ -1,0 +1,59 @@
+
+<form [formGroup]="form" (submit)="onSubmit()">
+    <label>Email:</label>
+    <input type="email" formControlName="email"/>
+
+    @if (form.controls['email'].invalid && form.controls['email'].touched){
+      <div>
+        Please enter a valid email.
+      </div>
+    }
+   
+  
+    <label>Password:</label>
+    <input type="password" formControlName="password" required />
+
+    @if (form.controls['password'].invalid && form.controls['password'].touched){
+        @if(form.controls['password'].errors?.['required']){
+        <div>
+            Password is required
+        </div>
+        }
+        @if(form.controls['password'].errors?.['minLength']){
+            <div>
+                Password must be at least 8 characters
+            </div>
+        }
+        @if(form.controls['password'].errors?.['pattern']){
+            <div>
+                Password must contain:
+                <ul>
+                    <li>At least one uppercase letter</li>
+                    <li>At least one lowercase letter</li>
+                    <li>At least one number</li>
+                    <li>At least one special character</li>
+                </ul>
+            </div>
+        }
+    }
+
+    <label>Confirm Password:</label>
+    <input type="password" formControlName="confirmPassword" required />
+    @if(form.controls['confirmPassword'].invalid && form.controls['confirmPassword'].touched){
+        <div>
+            Passwords do not match
+        </div>
+    }
+
+
+  
+    <button type="submit" [disabled]="form.invalid">Register</button>
+    @if (errorMessage){
+      <div>
+        {{errorMessage}}
+      </div>
+    }
+   
+  </form>
+
+  <a (click)="backToLogin()">Return to Login</a>

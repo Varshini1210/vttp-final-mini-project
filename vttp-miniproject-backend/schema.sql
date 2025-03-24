@@ -1,24 +1,22 @@
 -- drop the database if it exists
 
-drop database if exists miniproject;
+drop database if exists healthcare;
 
 -- create the database
 
-create database miniproject;
+create database healthcare;
 
 -- select the database
-use miniproject;
+use healthcare;
 
 -- create one or more tables
 select "creating users table..." as msg;
 
 -- create users table
 create table users (
-    user_id int auto_increment,
+    user_id varchar(128) not null,
     email varchar(128) not null unique,
-    password varchar(128) not null unique,
-    contact_number varchar(8) not null,
-    user_type ENUM ('PATIENT', 'ADMIN', 'DOCTOR') not null,
+    user_type ENUM ('PATIENT', 'ADMIN') not null,
     
     constraint pk_user_id primary key(user_id)
 );
@@ -30,8 +28,10 @@ create table patients (
     name varchar(128) not null,
     ic_num varchar(10) not null unique,
     dob date not null,
+    email varchar(128) not null,
+    contact_num varchar(8) not null,
     address varchar(128) not null,
-    user_id int not null,
+    user_id varchar(128) not null,
 
     constraint pk_patient_id primary key(patient_id),
     constraint fk_user_id foreign key(user_id)
@@ -48,20 +48,6 @@ create table clinics (
     constraint pk_clinic_id primary key(clinic_id)
 );
 
--- create doctors table
-select "creating doctors table..." as msg;
-create table doctors (
-    doctor_id int not null,
-    doctor_name varchar(128) not null,
-    clinic_id int not null,
-    user_id int not null,
-
-    constraint pk_doctor_id primary key(doctor_id),
-    constraint fk_user_id_2 foreign key(user_id)
-        references users(user_id),
-    constraint fk_clinic_id foreign key(clinic_id)
-        references clinics(clinic_id)
-);
 
 
 -- create admins table
@@ -70,12 +56,12 @@ create table admins (
     admin_id int not null,
     admin_name varchar(128) not null,
     clinic_id int not null,
-    user_id int not null,
+    user_id varchar(128) not null,
 
     constraint pk_admin_id primary key(admin_id),
-    constraint fk_user_id_3 foreign key(user_id)
+    constraint fk_user_id_2 foreign key(user_id)
         references users(user_id),
-    constraint fk_clinic_id_2 foreign key(clinic_id)
+    constraint fk_clinic_id foreign key(clinic_id)
         references clinics(clinic_id)
 );
 
@@ -92,33 +78,15 @@ create table clinic_patient_registrations(
     constraint pk_registration_id primary key(registration_id),
     constraint fk_patient_id foreign key(patient_id)
         references patients(patient_id),
-    constraint fk_clinic_id_3 foreign key(clinic_id)
+    constraint fk_clinic_id_2 foreign key(clinic_id)
         references clinics(clinic_id)
 );
-
--- create payments table
-select "creating payments table..." as msg;
-
-create table payments (
-    payment_id int auto_increment,
-    registration_id int not null,
-    amount decimal(10,2) not null,
-    status ENUM('PENDING', 'COMPLETED') default 'pending',
-    payment_date timestamp default current_timestamp,
-
-    constraint pk_payment_id primary key(payment_id),
-    constraint fk_registration_id foreign key(registration_id)
-        references clinic_patient_registrations(registration_id)
-    
-);
-
--- create medicines table
-
-select "creating medicines table..." as msg;
-
-create table medicines (
-    name varchar(128) not null,
-    price decimal(10,2) not null
+select "creating appointments table..." as msg;
+-- create appointments table
+create table appointments(
+    patient_id int not null,
+    clinic_id int not null,
+    appointment_date date not null
 )
 
 

@@ -1,0 +1,30 @@
+<form [formGroup]="form" (submit)="onSubmit()">
+    <label>Email:</label>
+    <input type="email" formControlName="email"/>
+
+    @if (form.controls['email'].invalid && form.controls['email'].touched){
+      <div>
+        Please enter a valid email.
+      </div>
+    }
+   
+  
+    <label>Password:</label>
+    <input type="password" formControlName="password" required />
+
+    @if (form.controls['password'].invalid && form.controls['password'].touched){
+      <div>
+        Please enter a password
+      </div>
+    }
+  
+    <button type="submit" [disabled]="form.invalid">Login</button>
+    @if (errorMessage){
+      <div>
+        {{errorMessage}}
+      </div>
+    }
+   
+  </form>
+
+  <a (click)="goToRegister()">Don't have an account? Click to register a new account</a>
