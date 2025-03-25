@@ -36,6 +36,7 @@ export class RegisterComponent implements OnInit{
   private createForm(): FormGroup {
     return this.form = this.fb.group({
       email: this.fb.control<string>('',[Validators.required, Validators.email]),
+      username: this.fb.control<string>('',[Validators.required,Validators.minLength(3)]),
       password: this.fb.control<string>('', [Validators.required, Validators.minLength(8), Validators.pattern("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$")]),
       confirmPassword: this.fb.control<string>('',[Validators.required, passwordsMatch ])
     })
@@ -55,7 +56,7 @@ export class RegisterComponent implements OnInit{
     if (this.form.invalid) return;
 
     try {
-      await this.authService.signUp(this.form.value.email, this.form.value.password);
+      await this.authService.signUp(this.form.value.email, this.form.value.password, this.form.value.username);
       this.router.navigate(['/']);
     } catch (error: any) {
       this.errorMessage = error.message;

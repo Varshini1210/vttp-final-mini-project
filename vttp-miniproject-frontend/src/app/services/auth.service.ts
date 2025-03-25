@@ -12,7 +12,9 @@ export class AuthService {
 
   private auth = inject(Auth);
   private router = inject(Router);
-  private http =inject(HttpClient)
+  private http =inject(HttpClient);
+
+
 
   private userSubject= new BehaviorSubject<User | null>(null);
   user$: Observable<User | null> = this.userSubject.asObservable();
@@ -25,7 +27,7 @@ export class AuthService {
   }
 
   // Sign up new users and send verification email
-  async signUp(email: string, password: string): Promise<void> {
+  async signUp(email: string, password: string, username: string): Promise<void> {
     try{ 
       // const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
       // if (userCredential.user) {
@@ -39,7 +41,7 @@ export class AuthService {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, username }),
       });
 
         if (!response.ok) {
@@ -84,12 +86,15 @@ export class AuthService {
   }
 
   private sendTokenToBackend(idToken: string): Promise<string> {
-   return lastValueFrom(this.http.post<{ user_type: string }>('/api/authenticate', { token: idToken}))
-                .then(response => response?.user_type || '')
-                .catch(error => {
-                  console.error("Error sending token to backend:", error.message);
-                  throw new error("Authentication Failed");
-                })
+    return lastValueFrom(
+      this.http.post<{ user_type: string; username: string }>('/api/authenticate', { token: idToken })
+    ).then(response => {
+      localStorage.setItem("username", response.username);
+      return response.user_type; // Return userType for navigation
+    }).catch(error => {
+      console.error("Error sending token to backend:", error.message);
+      throw new Error("Authentication Failed");
+    });
   }
 
   async logout(): Promise<void> {
@@ -110,4 +115,8 @@ export class AuthService {
       });
     });
   }
+
+ 
+
+
 }

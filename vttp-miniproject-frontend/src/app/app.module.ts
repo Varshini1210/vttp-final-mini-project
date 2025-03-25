@@ -17,6 +17,12 @@ import { HomeComponent } from './components/home/home.component';
 import { AdminHomeComponent } from './components/admin-home/admin-home.component';
 import { provideHttpClient } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { MaterialModule } from './material/material.module';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { ClinicService } from './services/clinic.service';
+import { provideComponentStore } from '@ngrx/component-store';
+import { ClinicStore } from './clinic.store';
+import { MapsLoaderService } from './services/maps-loader.service';
 
 @NgModule({
   declarations: [
@@ -36,13 +42,18 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    MaterialModule,
+    GoogleMapsModule
   ],
   providers: [
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     AuthService,
-    provideHttpClient()
+    provideHttpClient(),
+    ClinicService,
+    provideComponentStore(ClinicStore),
+    MapsLoaderService
   ],
   bootstrap: [AppComponent]
 })

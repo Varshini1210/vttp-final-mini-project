@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit{
         this.router.navigate(['/adminhome'])
       }
       else {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
       }
       
     } catch (error: any) {

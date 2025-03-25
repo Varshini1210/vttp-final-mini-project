@@ -1,59 +1,82 @@
-
-<form [formGroup]="form" (submit)="onSubmit()">
-    <label>Email:</label>
-    <input type="email" formControlName="email"/>
-
-    @if (form.controls['email'].invalid && form.controls['email'].touched){
-      <div>
-        Please enter a valid email.
-      </div>
-    }
-   
+<mat-card appearance="raised">
   
-    <label>Password:</label>
-    <input type="password" formControlName="password" required />
-
-    @if (form.controls['password'].invalid && form.controls['password'].touched){
-        @if(form.controls['password'].errors?.['required']){
-        <div>
-            Password is required
-        </div>
+    <form [formGroup]="form" (submit)="onSubmit()">
+        <mat-card-header>
+            <mat-card-title>Register</mat-card-title>
+        </mat-card-header>
+        <mat-form-field>
+            <mat-label>Email:</mat-label>
+            <input matInput type="email" formControlName="email"/>
+            @if (form.controls['email'].invalid && form.controls['email'].touched){
+                <mat-error>
+                  Please enter a valid email.
+                </mat-error>
+              }
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Username:</mat-label>
+            <input matInput type="text" formControlName="username"/>
+            @if (form.controls['username'].invalid && form.controls['username'].touched){
+                <mat-error>
+                  Please enter a username with a minimum of 3 characters
+                </mat-error>
+              }
+        </mat-form-field>
+        
+    
+       
+       
+      <mat-form-field>
+        <mat-label>Password:</mat-label>
+        <input matInput type="password" formControlName="password" required />
+    
+        @if (form.controls['password'].invalid && form.controls['password'].touched){
+            @if(form.controls['password'].errors?.['required']){
+            <mat-error>
+                Password is required
+            </mat-error>
+            }
+            @if(form.controls['password'].errors?.['minLength']){
+                <mat-error>
+                    Password must be at least 8 characters
+                </mat-error>
+            }
+            @if(form.controls['password'].errors?.['pattern']){
+                <mat-error>
+                    Password must contain:
+                    <mat-list>
+                        <mat-list-item>At least one uppercase letter</mat-list-item>
+                        <mat-list-item>At least one lowercase letter</mat-list-item>
+                        <mat-list-item>At least one number</mat-list-item>
+                        <mat-list-item>At least one special character</mat-list-item>
+                    </mat-list>
+                </mat-error>
+            }
         }
-        @if(form.controls['password'].errors?.['minLength']){
-            <div>
-                Password must be at least 8 characters
-            </div>
+      </mat-form-field>
+        
+      <mat-form-field>
+        <mat-label>Confirm Password:</mat-label>
+        <input matInput type="password" formControlName="confirmPassword" required />
+        @if(form.controls['confirmPassword'].invalid && form.controls['confirmPassword'].touched){
+            <mat-error>
+                Passwords do not match
+            </mat-error>
         }
-        @if(form.controls['password'].errors?.['pattern']){
-            <div>
-                Password must contain:
-                <ul>
-                    <li>At least one uppercase letter</li>
-                    <li>At least one lowercase letter</li>
-                    <li>At least one number</li>
-                    <li>At least one special character</li>
-                </ul>
-            </div>
+      </mat-form-field>
+        
+    
+    
+      
+        <button mat-raised-button ="submit" [disabled]="form.invalid">Register</button>
+        @if (errorMessage){
+          <mat-error>
+            {{errorMessage}}
+          </mat-error>
         }
-    }
-
-    <label>Confirm Password:</label>
-    <input type="password" formControlName="confirmPassword" required />
-    @if(form.controls['confirmPassword'].invalid && form.controls['confirmPassword'].touched){
-        <div>
-            Passwords do not match
-        </div>
-    }
-
-
-  
-    <button type="submit" [disabled]="form.invalid">Register</button>
-    @if (errorMessage){
-      <div>
-        {{errorMessage}}
-      </div>
-    }
-   
-  </form>
-
-  <a (click)="backToLogin()">Return to Login</a>
+       
+      </form>
+    
+      <a [routerLink]="['/']" (click)="backToLogin()">Return to Login</a>
+    
+</mat-card>

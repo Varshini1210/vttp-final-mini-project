@@ -9,7 +9,7 @@ import { AdminHomeComponent } from './components/admin-home/admin-home.component
 const routes: Routes = [
   {path:'', component:LoginComponent},
   {path:'register', component:RegisterComponent},
-  {path:'home', component:HomeComponent, canActivate:[canProceedToHome]},
+  {path:'home', component:HomeComponent},
   {path:'adminhome',component:AdminHomeComponent},
   {path:'**', redirectTo:'/', pathMatch:'full'}
 ];

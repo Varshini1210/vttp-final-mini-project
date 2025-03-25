@@ -1,1 +1,40 @@
-<p>home works!</p>
+<h1>Clinic Queue Booking System </h1>
+
+<h3>Welcome, {{username}}</h3>
+
+<form [formGroup]="form">
+
+    <!-- Material UI Select for Location -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Select Location</mat-label>
+      <mat-select formControlName="location" (selectionChange)="getFilteredClinics()">
+          @for (location of locations$ | async; track location) {
+              <mat-option [value]="location">{{ location }}</mat-option>
+          }
+      </mat-select>
+    </mat-form-field>
+  
+    <!-- Show Clinic Dropdown Only If a Location is Selected -->
+    @if (form.get('location')?.value) {
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Select Clinic</mat-label>
+        <mat-select formControlName="clinic">
+            @for (clinic of filteredClinics$ | async; track clinic.name) {
+                <mat-option [value]="clinic.name">{{ clinic.name}}</mat-option>
+            }
+        </mat-select>
+      </mat-form-field>
+    }
+
+    @if((filteredClinics$ | async)?.length === 0) {
+      <mat-error>No clinics are available for the selected location. Please select a different location</mat-error>
+    }
+  
+    <!-- Submit Button -->
+    <button mat-raised-button color="primary" [disabled]="!form.valid">
+      Submit
+    </button>
+  
+  </form>
+
+
