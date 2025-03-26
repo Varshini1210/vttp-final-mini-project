@@ -1,82 +1,88 @@
-<mat-card appearance="raised">
-  
-    <form [formGroup]="form" (submit)="onSubmit()">
-        <mat-card-header>
-            <mat-card-title>Register</mat-card-title>
-        </mat-card-header>
-        <mat-form-field>
-            <mat-label>Email:</mat-label>
-            <input matInput type="email" formControlName="email"/>
-            @if (form.controls['email'].invalid && form.controls['email'].touched){
-                <mat-error>
-                  Please enter a valid email.
-                </mat-error>
-              }
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Username:</mat-label>
-            <input matInput type="text" formControlName="username"/>
-            @if (form.controls['username'].invalid && form.controls['username'].touched){
-                <mat-error>
-                  Please enter a username with a minimum of 3 characters
-                </mat-error>
-              }
-        </mat-form-field>
-        
-    
-       
-       
-      <mat-form-field>
-        <mat-label>Password:</mat-label>
-        <input matInput type="password" formControlName="password" required />
-    
+<h1 class="title">Clinique: Your Friendly Clinic Booking System</h1>
+
+<mat-card class="register-card">
+  <mat-card-header>
+    <mat-card-title>Register</mat-card-title>
+    <mat-card-subtitle>Create a new account</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="form" (submit)="onSubmit()" class="register-form">
+      <!-- Email Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="example@domain.com">
+        <mat-icon matSuffix>email</mat-icon>
+        @if (form.controls['email'].invalid && form.controls['email'].touched){
+          <mat-error>Please enter a valid email</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Username Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput type="text" formControlName="username">
+        <mat-icon matSuffix>person</mat-icon>
+        @if (form.controls['username'].invalid && form.controls['username'].touched){
+          <mat-error>Username must be at least 3 characters</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Password Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" required>
+        <mat-icon matSuffix>lock</mat-icon>
         @if (form.controls['password'].invalid && form.controls['password'].touched){
-            @if(form.controls['password'].errors?.['required']){
+          @if(form.controls['password'].errors?.['required']){
+            <mat-error>Password is required</mat-error>
+          }
+          @if(form.controls['password'].errors?.['minLength']){
+            <mat-error>Password must be at least 8 characters</mat-error>
+          }
+          @if(form.controls['password'].errors?.['pattern']){
             <mat-error>
-                Password is required
+              Password must contain:
+              <ul class="password-requirements">
+                <li>At least one uppercase letter</li>
+                <li>At least one lowercase letter</li>
+                <li>At least one number</li>
+                <li>At least one special character</li>
+              </ul>
             </mat-error>
-            }
-            @if(form.controls['password'].errors?.['minLength']){
-                <mat-error>
-                    Password must be at least 8 characters
-                </mat-error>
-            }
-            @if(form.controls['password'].errors?.['pattern']){
-                <mat-error>
-                    Password must contain:
-                    <mat-list>
-                        <mat-list-item>At least one uppercase letter</mat-list-item>
-                        <mat-list-item>At least one lowercase letter</mat-list-item>
-                        <mat-list-item>At least one number</mat-list-item>
-                        <mat-list-item>At least one special character</mat-list-item>
-                    </mat-list>
-                </mat-error>
-            }
+          }
         }
       </mat-form-field>
-        
-      <mat-form-field>
-        <mat-label>Confirm Password:</mat-label>
-        <input matInput type="password" formControlName="confirmPassword" required />
+
+      <!-- Confirm Password Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput type="password" formControlName="confirmPassword" required>
+        <mat-icon matSuffix>lock_reset</mat-icon>
         @if(form.controls['confirmPassword'].invalid && form.controls['confirmPassword'].touched){
-            <mat-error>
-                Passwords do not match
-            </mat-error>
+          <mat-error>Passwords do not match</mat-error>
         }
       </mat-form-field>
-        
-    
-    
-      
-        <button mat-raised-button ="submit" [disabled]="form.invalid">Register</button>
-        @if (errorMessage){
-          <mat-error>
-            {{errorMessage}}
-          </mat-error>
-        }
-       
-      </form>
-    
-      <a [routerLink]="['/']" (click)="backToLogin()">Return to Login</a>
-    
+
+      <!-- Error Message -->
+      @if (errorMessage){
+        <mat-error class="server-error">{{errorMessage}}</mat-error>
+      }
+
+      <!-- Submit Button -->
+      <button mat-raised-button 
+              color="primary" 
+              type="submit" 
+              [disabled]="form.invalid"
+              class="full-width">
+        Register
+      </button>
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions class="login-action">
+    <button mat-button color="accent" [routerLink]="['/']" (click)="backToLogin()">
+      Already have an account? Login here
+    </button>
+  </mat-card-actions>
 </mat-card>

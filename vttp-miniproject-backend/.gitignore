@@ -34,3 +34,7 @@ build/
 
 # Ignore Firebase service account key
 src/main/resources/serviceAccountKey.json
+
+#Ignore google cloud service account key
+src/main/resources/credentials.json
+src/main/resources/oauth-credentials.json

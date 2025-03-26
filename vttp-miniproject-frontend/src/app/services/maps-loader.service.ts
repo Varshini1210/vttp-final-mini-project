@@ -6,18 +6,30 @@ import { environment } from '../../environments/environment';
 })
 export class MapsLoaderService {
  
+  private readonly apiKey = environment.googleMapsApiKey
+  private loaded = false;
 
-  loadGoogleMapsScript(): void {
-    if (!document.getElementById('google-maps-script')) {
+  constructor() {}
+
+  loadGoogleMapsScript(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.loaded || typeof google !== 'undefined') {
+        resolve();
+        return;
+      }
+
       const script = document.createElement('script');
-      script.id = 'google-maps-script';
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApiKey}&callback=initMap`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}&libraries=places`;
       script.async = true;
       script.defer = true;
-      document.body.appendChild(script);
-    }
+      script.onload = () => {
+        this.loaded = true;
+        resolve();
+      };
+      script.onerror = (error) => {
+        reject(error);
+      };
+      document.head.appendChild(script);
+    });
   }
-  // script.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}&libraries=places`;
-
-  constructor() { }
 }

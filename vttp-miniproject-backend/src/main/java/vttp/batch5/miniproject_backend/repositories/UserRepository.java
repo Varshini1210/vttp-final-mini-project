@@ -18,16 +18,39 @@ public class UserRepository {
 
     public static String SQL_SAVE_USER=
     """
-        insert into users(user_id,email,user_type)
-        values(?,?,?)
+        insert into users(user_id,username,email,user_type)
+        values(?,?,?,?)
     """;
+
+    public static String SQL_GET_USERNAME = 
+    """
+            select username from users
+            where user_id = ?
+            """;
+
+    public static String SQL_GET_EMAIL = """
+            select email from users 
+            where user_id = ?
+            """;
+
+    
     
     public String getUserType (String uid) {
         String userType = template.queryForObject(SQL_GET_USER_TYPE,String.class,uid);
         return userType;
     }
 
-    public void saveUser(String uid, String email){
-        template.update(SQL_SAVE_USER,uid,email,"PATIENT");
+    public void saveUser(String uid, String email, String username){
+        template.update(SQL_SAVE_USER,uid,username,email,"PATIENT");
+    }
+
+    public String getUsername (String uid) {
+        String username = template.queryForObject(SQL_GET_USERNAME, String.class, uid);
+        return username;
+    }
+
+    public String getEmail (String uid) {
+        String email = template.queryForObject(SQL_GET_EMAIL, String.class, uid);
+        return email;
     }
 }

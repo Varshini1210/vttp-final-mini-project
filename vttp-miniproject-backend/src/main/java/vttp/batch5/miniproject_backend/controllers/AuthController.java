@@ -38,9 +38,14 @@ public class AuthController {
         try{
             String uid = authService.verifyToken(token);
             String userType = userService.getUserType(uid);
+            String username = userService.getUsername(uid);
+            String email = userService.getEmail(uid);
 
             JsonObject response = Json.createObjectBuilder()
                                     .add("user_type",userType)
+                                    .add("username", username)
+                                    .add("email",email)
+                                    .add("user_id",uid)
                                     .build();
             return ResponseEntity.ok(response.toString());
         }
@@ -56,10 +61,11 @@ public class AuthController {
 
         String email = payload.get("email");
         String password = payload.get("password");
+        String username = payload.get("username");
 
         try{
             String uid = authService.createUser(email, password);
-            userService.saveUser(uid, email);
+            userService.saveUser(uid, email, username);
 
             JsonObject response = Json.createObjectBuilder()
                                     .add("message","Record is inserted")

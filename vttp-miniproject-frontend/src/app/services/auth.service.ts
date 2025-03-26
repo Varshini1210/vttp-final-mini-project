@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Auth, User ,createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject, firstValueFrom, lastValueFrom, Observable } from 'rxjs';
+import { Patient } from '../models';
 
 
 @Injectable({
@@ -14,7 +15,12 @@ export class AuthService {
   private router = inject(Router);
   private http =inject(HttpClient);
 
-
+  patient: Patient = {
+    username: '',
+    email: '',
+    bookingStatus: false,
+    user_id:''
+  }
 
   private userSubject= new BehaviorSubject<User | null>(null);
   user$: Observable<User | null> = this.userSubject.asObservable();
@@ -29,12 +35,6 @@ export class AuthService {
   // Sign up new users and send verification email
   async signUp(email: string, password: string, username: string): Promise<void> {
     try{ 
-      // const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
-      // if (userCredential.user) {
-      //   await sendEmailVerification(userCredential.user); // Send verification email
-      //   await signOut(this.auth); // Sign out to prevent unverified login
-
-      //   const idToken = await userCredential.user.getIdToken();
 
       const response = await fetch('/api/register', {
         method: 'POST',
@@ -55,7 +55,6 @@ export class AuthService {
           await sendEmailVerification(userCredential.user);
           alert('Verification email sent. Please check your inbox.');
   
-          // Optionally sign out the user after sending the verification email to prevent access to unverified users
           await signOut(this.auth);
       }
     }
@@ -76,8 +75,6 @@ export class AuthService {
       const idToken = await userCredential.user.getIdToken();
 
       return await this.sendTokenToBackend(idToken);
-
-      // this.userSubject.next(userCredential.user);
       
     }
     catch (error: any) {
@@ -87,10 +84,13 @@ export class AuthService {
 
   private sendTokenToBackend(idToken: string): Promise<string> {
     return lastValueFrom(
-      this.http.post<{ user_type: string; username: string }>('/api/authenticate', { token: idToken })
+      this.http.post<{ user_type: string; username: string; email: string; user_id: string }>('/api/authenticate', { token: idToken })
     ).then(response => {
-      localStorage.setItem("username", response.username);
-      return response.user_type; // Return userType for navigation
+     
+      this.patient.username=response.username;
+      this.patient.email=response.email
+      this.patient.user_id = response.user_id
+      return response.user_type; 
     }).catch(error => {
       console.error("Error sending token to backend:", error.message);
       throw new Error("Authentication Failed");
@@ -114,6 +114,10 @@ export class AuthService {
         observer.next(!!user);
       });
     });
+  }
+
+  getPatient(): Patient {
+    return this.patient
   }
 
  

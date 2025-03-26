@@ -1,0 +1,93 @@
+.header-container {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 0 20px;
+  }
+  
+  .header-container h1 {
+    margin-bottom: 8px;
+    color: #3f51b5;
+  }
+  
+  .confirmation-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .confirmation-card {
+    padding: 24px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .confirmation-content {
+    padding: 16px 0;
+  }
+  
+  .thank-you-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    color: #4CAF50;
+  }
+  
+  .success-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+    margin-right: 12px;
+  }
+  
+  .thank-you-message h2 {
+    margin: 0;
+    font-weight: 500;
+  }
+  
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  
+  .detail-item {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .detail-item.highlight {
+    background-color: #f5f5f5;
+    padding: 12px;
+    border-radius: 4px;
+    border-bottom: none;
+  }
+  
+  .detail-label {
+    font-weight: 500;
+    min-width: 180px;
+    color: #616161;
+  }
+  
+  .detail-value {
+    color: #212121;
+  }
+  
+  .queue-position {
+    font-weight: bold;
+    color: #3f51b5;
+    font-size: 1.1em;
+  }
+  
+  .confirmation-actions {
+    display: flex;
+    justify-content: center;
+    padding: 16px 0 0 0;
+  }
+  
+  .action-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }

@@ -17,8 +17,7 @@ export class ClinicService{
     }
 
     getSectorsByLocation(location: string): Promise<string[]> {
-        return lastValueFrom(this.http.get<string[]>(`/api/clinics/${location}`))
-
+        return lastValueFrom(this.http.get<string[]>(`/api/clinic?location=${location}`));
     }
 
 }

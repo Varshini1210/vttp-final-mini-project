@@ -15,6 +15,7 @@ select "creating users table..." as msg;
 -- create users table
 create table users (
     user_id varchar(128) not null,
+    username varchar(128) not null,
     email varchar(128) not null unique,
     user_type ENUM ('PATIENT', 'ADMIN') not null,
     
@@ -67,27 +68,40 @@ create table admins (
 
 
 -- create clinic_patient_registrations table
-select "creating clinic_patient_registrations table..." as msg;
+-- select "creating clinic_patient_registrations table..." as msg;
 
-create table clinic_patient_registrations(
-    registration_id int auto_increment,
-    patient_id int not null,
-    clinic_id int not null,
-    registation_date date not null,
+-- create table clinic_patient_registrations(
+--     registration_id int auto_increment,
+--     patient_id int not null,
+--     clinic_id int not null,
+--     registation_date date not null,
 
-    constraint pk_registration_id primary key(registration_id),
-    constraint fk_patient_id foreign key(patient_id)
-        references patients(patient_id),
-    constraint fk_clinic_id_2 foreign key(clinic_id)
-        references clinics(clinic_id)
-);
+--     constraint pk_registration_id primary key(registration_id),
+--     constraint fk_patient_id foreign key(patient_id)
+--         references patients(patient_id),
+--     constraint fk_clinic_id_2 foreign key(clinic_id)
+--         references clinics(clinic_id)
+-- );
 select "creating appointments table..." as msg;
 -- create appointments table
 create table appointments(
+    appointment_id int auto_increment,
     patient_id int not null,
     clinic_id int not null,
-    appointment_date date not null
-)
+    appointment_date date not null,
+
+    constraint pk_appointment_id primary key(appointment_id),
+    constraint fk_patient_id foreign key(patient_id)
+            references patients(patient_id)
+);
+
+select "creating postal_districts table..." as msg;
+-- create postal_districts table
+CREATE TABLE postal_districts (
+    sector CHAR(2) PRIMARY KEY,
+    location VARCHAR(255) NOT NULL
+);
+
 
 
 

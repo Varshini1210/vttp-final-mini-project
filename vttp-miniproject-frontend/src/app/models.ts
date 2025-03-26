@@ -1,4 +1,5 @@
 export interface Clinic {
+    id: number
     name: string
     lat: number
     lon: number
@@ -10,3 +11,22 @@ export interface Clinic {
     clinics: Clinic[]
     selectedLocation: string | null
   }
+
+  export interface Patient {
+    username: string
+    email: string
+    user_id: string
+    bookingStatus: boolean
+  }
+
+  export interface BookingConfirmation {
+    clinicId: string;
+    clinicName: string;
+    userName: string;
+    userEmail: string;
+    queuePosition: string;
+    clinicAddress?: string;
+    postalCode?: number;
+  }
+  
+

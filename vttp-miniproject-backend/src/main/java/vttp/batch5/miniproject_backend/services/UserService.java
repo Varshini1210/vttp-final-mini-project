@@ -15,8 +15,16 @@ public class UserService {
         return userRepo.getUserType(uid);
     }
 
-    public void saveUser (String uid, String email){
-        userRepo.saveUser(uid, email);
+    public void saveUser (String uid, String email, String username){
+        userRepo.saveUser(uid, email, username);
+    }
+
+    public String getUsername(String uid){
+        return userRepo.getUsername(uid);
+    }
+
+    public String getEmail(String uid){
+        return userRepo.getEmail(uid);
     }
     
 }

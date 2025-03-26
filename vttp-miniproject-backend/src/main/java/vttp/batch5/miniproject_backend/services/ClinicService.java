@@ -1,29 +1,22 @@
 package vttp.batch5.miniproject_backend.services;
 
-import java.io.File;
+
 import java.io.StringReader;
-import java.net.URI;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.CompletableFuture;
+
+
+import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import vttp.batch5.miniproject_backend.models.Clinic;
 import vttp.batch5.miniproject_backend.repositories.ClinicRepository;
 
 @Service
@@ -72,6 +65,18 @@ public class ClinicService {
         }
 
    
+    }
+
+    public List<Clinic> getAllClinics() {
+        return clinicRepo.getAllClinics();
+    }
+
+    public List<String> getLocations(){
+        return clinicRepo.getLocations();
+    }
+
+    public List<String> getSectors(String location) {
+        return clinicRepo.getSectors(location);
     }
 
     

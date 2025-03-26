@@ -1,0 +1,54 @@
+<div class="header-container">
+  <h1>Clinique: Your Friendly Clinic Booking System</h1>
+</div>
+
+<div class="confirmation-container">
+  <mat-card class="confirmation-card">
+    <mat-card-header>
+      <mat-card-title>Booking Confirmation</mat-card-title>
+      <mat-card-subtitle>Your appointment has been scheduled</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="confirmation-content">
+      <div class="confirmation-details">
+        <div class="thank-you-message">
+          <mat-icon class="success-icon">check_circle</mat-icon>
+          <h2>Thank you, {{ bookingDetails.userName }}!</h2>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">Clinic:</span>
+            <span class="detail-value">{{ bookingDetails.clinicName }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Address:</span>
+            <span class="detail-value">{{ bookingDetails.clinicAddress }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Postal Code:</span>
+            <span class="detail-value">{{ bookingDetails.postalCode }}</span>
+          </div>
+          
+          <div class="detail-item highlight">
+            <span class="detail-label">Your Queue Position:</span>
+            <span class="detail-value queue-position">{{ bookingDetails.queuePosition }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="detail-label">Confirmation Sent To:</span>
+            <span class="detail-value">{{ bookingDetails.userEmail }}</span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="confirmation-actions">
+      <button mat-raised-button color="primary" routerLink="/home" class="action-button">
+        <mat-icon>home</mat-icon> Back to Home
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,30 +1,48 @@
-<form [formGroup]="form" (submit)="onSubmit()">
-    <label>Email:</label>
-    <input type="email" formControlName="email"/>
+<h1 class="title">Clinique: Your Friendly Clinic Booking System</h1>
 
-    @if (form.controls['email'].invalid && form.controls['email'].touched){
-      <div>
-        Please enter a valid email.
-      </div>
-    }
-   
-  
-    <label>Password:</label>
-    <input type="password" formControlName="password" required />
+<mat-card class="login-card">
+  <mat-card-header>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-subtitle>Access your account</mat-card-subtitle>
+  </mat-card-header>
 
-    @if (form.controls['password'].invalid && form.controls['password'].touched){
-      <div>
-        Please enter a password
-      </div>
-    }
-  
-    <button type="submit" [disabled]="form.invalid">Login</button>
-    @if (errorMessage){
-      <div>
-        {{errorMessage}}
-      </div>
-    }
-   
-  </form>
+  <mat-card-content>
+    <form [formGroup]="form" (submit)="onSubmit()" class="login-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="example@domain.com">
+        <mat-icon matSuffix>email</mat-icon>
+        @if (form.controls['email'].invalid && form.controls['email'].touched){
+          <mat-error>Please enter a valid email</mat-error>
+        }
+      </mat-form-field>
 
-  <a (click)="goToRegister()">Don't have an account? Click to register a new account</a>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" required>
+        <mat-icon matSuffix>lock</mat-icon>
+        @if (form.controls['password'].invalid && form.controls['password'].touched){
+          <mat-error>Please enter your password</mat-error>
+        }
+      </mat-form-field>
+
+      @if (errorMessage){
+        <mat-error class="server-error">{{errorMessage}}</mat-error>
+      }
+
+      <button mat-raised-button 
+              color="primary" 
+              type="submit" 
+              [disabled]="form.invalid"
+              class="full-width">
+        Login
+      </button>
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions class="register-action">
+    <button mat-button color="accent" (click)="goToRegister()">
+      Don't have an account? Register here
+    </button>
+  </mat-card-actions>
+</mat-card>
