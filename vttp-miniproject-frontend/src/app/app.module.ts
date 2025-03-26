@@ -28,15 +28,6 @@ import { QueueConfirmationComponent } from './components/queue-confirmation/queu
 import { QueueService } from './services/queue.service';
 import { WebSocketService } from './services/web-socket.service';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA2vzQMVUWSaXK4XJKpyKf7_nJL200ZMnE",
-      authDomain: "vttp-miniproject.firebaseapp.com",
-      projectId: "vttp-miniproject",
-      storageBucket: "vttp-miniproject.firebasestorage.app",
-      messagingSenderId: "628625146359",
-      appId: "1:628625146359:web:7aecd5fce5b0d34b1b2ef2",
-      measurementId: "G-4G93VKGE7D"
-}
 
 @NgModule({
   declarations: [
